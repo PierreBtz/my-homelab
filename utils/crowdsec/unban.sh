@@ -6,5 +6,4 @@ source "$(cd -P "$(dirname "${BASH_SOURCE[0]}")/../common" && pwd)/utils.lib.sh"
 
 set_cluster_context
 echo "Will unban IP: ${1}"
-
-docker exec "$(docker ps -q -f name=crowdsec | head -n1)" bash -c "cscli decisions delete -i ${1}"
+remote_exec 'crowdsec' "cscli decisions delete -i ${1}"

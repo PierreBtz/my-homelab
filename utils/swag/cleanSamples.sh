@@ -6,4 +6,4 @@ source "$(cd -P "$(dirname "${BASH_SOURCE[0]}")/../common" && pwd)/utils.lib.sh"
 
 set_cluster_context
 echo 'Will delete swag samples'
-docker exec -it "$(docker ps -q -f name=swag | head -n1)" bash -c "rm -rf /config/nginx/proxy-confs/*.sample"
+remote_exec 'swag' 'rm -rf /config/nginx/proxy-confs/*.sample'
