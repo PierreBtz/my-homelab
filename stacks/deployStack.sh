@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# shellcheck source=../utils/common/utils.lib.sh
+source "$(cd -P "$(dirname "${BASH_SOURCE[0]}")/../utils/common" && pwd)/utils.lib.sh"
+
 function deploy() {
-    stack=${PWD##*/}
-    compose_file=docker-compose.yml
+    local stack=${PWD##*/}
+    local compose_file=docker-compose.yml
 
     if [ ! -f $compose_file ]; then
         echo "Stack doesn't have a compose file" >&2
@@ -19,7 +22,7 @@ function deploy() {
     )
 }
 
-function createNetwork() {
+function create_network() {
     network_name="internal-network"
     docker network inspect "${network_name}" >/dev/null 2>&1 || \
     docker network create --driver overlay "${network_name}"
@@ -27,9 +30,9 @@ function createNetwork() {
 
 STACK="${1}"
 
-docker context use home-cluster
+set_cluster_context
 echo "Starting to deploy ${STACK}"
-createNetwork
+create_network
 pushd "${STACK}" || exit
 deploy
 popd || exit
