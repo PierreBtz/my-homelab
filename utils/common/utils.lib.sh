@@ -11,7 +11,15 @@ function set_cluster_context() {
 function remote_exec() {
   local stack="${1}"
   local command="${2}"
-  docker exec -it "$(docker ps -q -f name=${stack} | head -n1)" bash -c "${command}"
+
+  local container
+  container=$(container_for_stack "${stack}")
+  docker exec -it "${container}" bash -c "${command}"
+}
+
+function container_for_stack() {
+  local stack="${1}"
+  docker ps -q -f name="${stack}" | head -n1
 }
 
 _LIB_LOADED=true
