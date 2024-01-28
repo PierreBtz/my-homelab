@@ -14,6 +14,8 @@ function deploy() {
     fi
 
     (
+        # export version files excluding comments
+        [ -f ../.env ] && export $(sed '/^#/d' ../.versions)
         # export common variables excluding comments
         [ -f ../.env ] && export $(sed '/^#/d' ../.env)
         # export variables excluding comments
