@@ -1,0 +1,59 @@
+services:
+  swag:
+    image: lscr.io/linuxserver/swag:${SWAG_VERSION}
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - URL=${ROOT_DOMAIN}
+      - VALIDATION=dns
+      - SUBDOMAINS=wildcard
+      - DNSPLUGIN=cloudflare
+      - EMAIL=${CONTACT_EMAIL}
+      - ONLY_SUBDOMAINS=false
+      - STAGING=false
+      - DOCKER_MODS=linuxserver/mods:swag-dashboard|linuxserver/mods:swag-dbip|ghcr.io/linuxserver/mods:swag-crowdsec|linuxserver/mods:universal-cloudflared|linuxserver/mods:swag-cloudflare-real-ip
+      - CROWDSEC_API_KEY=${CROWDSEC_API_KEY}
+      - CROWDSEC_LAPI_URL=http://crowdsec:8080
+      - CF_ZONE_ID=${CF_ZONE_ID}
+      - CF_ACCOUNT_ID=${CF_ACCOUNT_ID}
+      - CF_API_TOKEN=${CF_API_TOKEN}
+      - CF_TUNNEL_NAME=${CF_TUNNEL_NAME}
+      - CF_TUNNEL_PASSWORD=${CF_TUNNEL_PASSWORD}
+      - FILE__CF_TUNNEL_CONFIG=/config/cf-tunnel.yml
+    extra_hosts:
+      # remember to keep this so that certificate properly works
+      - ${ROOT_DOMAIN}:127.0.0.1
+    volumes:
+      - ${ROOT_DATA_MOUNT}/swag/config:/config
+    ports:
+      - target: 80
+        published: 80
+        mode: host
+      - target: 443
+        published: 443
+        mode: host
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_1_HOSTNAME}
+    networks:
+      - internal-network
+    labels:
+      - homepage.group=Monitoring
+      - homepage.name=Nginx Status
+      - homepage.icon=nginx.png
+      - homepage.href=https://${SUBDOMAIN}.${ROOT_DOMAIN}
+      - homepage.description=Container Status
+      - wud.watch=true
+      - wud.display.name=Swag
+      - wud.display.icon=si:nginx
+
+networks:
+  internal-network:
+    external: true
+
+volumes:
+  config:

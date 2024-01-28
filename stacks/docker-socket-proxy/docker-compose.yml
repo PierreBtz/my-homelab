@@ -1,0 +1,31 @@
+services:
+  dockerproxy:
+    image: ghcr.io/tecnativa/docker-socket-proxy:${DOCKER_SOCKET_PROXY_VERSION}
+    hostname: "{{.Node.Hostname}}-{{.Service.Name}}"
+    environment:
+      - CONTAINERS=1 # Allow access to viewing containers
+      - SERVICES=1 # Allow access to viewing services (necessary when using Docker Swarm)
+      - TASKS=1 # Allow access to viewing tasks (necessary when using Docker Swarm)
+      - SWARM=1
+      - POST=0 # Disallow any POST operations (effectively read-only)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
+    deploy:
+      mode: global
+    networks:
+      internal-network:
+        aliases:
+          - "{{.Node.Hostname}}-{{.Service.Name}}"
+    labels:
+      - homepage.group=Monitoring
+      - homepage.name=Docker Socket Proxy Status
+      - homepage.icon=docker.png
+      - homepage.description=Container Status
+      - wud.watch=true
+      - wud.watch.digest=true
+      - wud.display.name=Docker Socket Proxy
+      - wud.display.icon=si:docker
+
+networks:
+  internal-network:
+    external: true

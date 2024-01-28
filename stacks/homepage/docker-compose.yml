@@ -1,0 +1,29 @@
+services:
+  webserver:
+    image: ghcr.io/gethomepage/homepage:${HOMEPAGE_VERSION}
+    volumes:
+      - ${ROOT_DATA_MOUNT}/homepage/config:/app/config
+        # https://github.com/gethomepage/homepage/issues/2567 ?
+        #  environment:
+        # PUID: ${PUID}
+        # PGID: ${PGID}
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_1_HOSTNAME}
+    networks:
+      internal-network:
+        aliases:
+          - homepage
+    labels:
+      - wud.watch=true
+      - wud.tag.include=^v\d+\.\d+\.\d+$$
+      - wud.display.name=Homepage
+      - wud.display.icon=si:statuspage
+
+networks:
+  internal-network:
+    external: true
+
+volumes:
+  config:

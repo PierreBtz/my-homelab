@@ -1,0 +1,29 @@
+services:
+  whatsupdocker:
+    image: fmartinou/whats-up-docker:${WHATS_UP_DOCKER_VERSION}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_1_HOSTNAME}
+    networks:
+      internal-network:
+    environment:
+      - WUD_AUTH_OIDC_AUTHENTIK_CLIENTID=${CLIENT_ID}
+      - WUD_AUTH_OIDC_AUTHENTIK_CLIENTSECRET=${CLIENT_SECRET}
+      - WUD_AUTH_OIDC_AUTHENTIK_DISCOVERY=https://${AUTH_SUBDOMAIN}.${ROOT_DOMAIN}/application/o/wud/.well-known/openid-configuration
+      - WUD_AUTH_OIDC_AUTHENTIK_REDIRECT=false
+      - WUD_WATCHER_LOCAL_WATCHBYDEFAULT=false
+      - WUD_REGISTRY_LSCR_TOKEN=${GH_TOKEN}
+      - WUD_REGISTRY_GHCR_TOKEN=
+
+    labels:
+      - homepage.group=Monitoring
+      - homepage.name=What's up Docker Status
+      - homepage.icon=docker.png
+      - homepage.href=https://${SUBDOMAIN}.${ROOT_DOMAIN}
+      - homepage.description=Container Status
+networks:
+  internal-network:
+   external: true
