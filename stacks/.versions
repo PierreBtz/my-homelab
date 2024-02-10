@@ -4,7 +4,7 @@ CROWDSEC_VERSION=v1.6.0
 # the image build process for this project doesn't seem properly setup. Versions are quite old, so using a nightly
 DOCKER_SOCKET_PROXY_VERSION=nightly
 HOME_ASSISTANT_VERSION=2024.2.1
-HOMEPAGE_VERSION=v0.8.6
+HOMEPAGE_VERSION=v0.8.7
 PAPERLESS_VERSION=2.4.3
 SWAG_VERSION=2.9.0-ls277
 WHATS_UP_DOCKER_VERSION=6.3.0
