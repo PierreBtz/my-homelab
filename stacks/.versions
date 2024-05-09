@@ -3,7 +3,7 @@ AUTHENTIK_VERSION=2024.4.2
 CROWDSEC_VERSION=v1.6.0
 # the image build process for this project doesn't seem properly setup. Versions are quite old, so using a nightly
 DOCKER_SOCKET_PROXY_VERSION=nightly
-HOME_ASSISTANT_VERSION=2024.5.1
+HOME_ASSISTANT_VERSION=2024.5.2
 HOMEPAGE_VERSION=v0.8.11
 PAPERLESS_VERSION=2.7.2
 SWAG_VERSION=2.10.0-ls297
