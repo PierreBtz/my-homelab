@@ -4,8 +4,16 @@ set -euo pipefail
 # Don't load it several times
 ${_LIB_LOADED:-false} && return
 
+function get_context_name() {
+  if [[ "${HOMELAB_VPN}" == true ]];then
+    echo 'home-cluster-vpn'
+  else
+    echo 'home-cluster'
+  fi
+}
+
 function set_cluster_context() {
-  docker context use home-cluster
+  docker context use $(get_context_name)
 }
 
 function remote_exec() {
