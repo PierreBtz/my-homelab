@@ -1,5 +1,5 @@
 # applications versions
-AUTHENTIK_VERSION=2024.6.1
+AUTHENTIK_VERSION=2024.6.3
 CROWDSEC_VERSION=v1.6.0
 # the image build process for this project doesn't seem properly setup. Versions are quite old, so using a nightly
 DOCKER_SOCKET_PROXY_VERSION=nightly
