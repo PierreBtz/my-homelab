@@ -1,0 +1,93 @@
+services:
+#8086
+  influxdb:
+    image: influxdb:latest
+    volumes:
+      - ${ROOT_DATA_MOUNT}/grafana/influxdb-storage:/var/lib/influxdb
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_USERNAME}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_ORG}
+      - DOCKER_INFLUXDB_INIT_BUCKET=default
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_ADMIN_TOKEN}
+    networks:
+      grafana:
+      internal-network:
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_2_HOSTNAME}
+    volumes:
+      - ${ROOT_DATA_MOUNT}/grafana/influxdb-storage:/var/lib/influxdb
+# 8888
+  chronograf:
+    image: chronograf:latest
+    volumes:
+      - ${ROOT_DATA_MOUNT}/grafana/chronograf-storage:/var/lib/chronograf
+    depends_on:
+      - influxdb
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_USERNAME=${INFLUXDB_USERNAME}
+      - INFLUXDB_PASSWORD=${INFLUXDB_PASSWORD}
+      - PUBLIC_URL=https://${CHRONOGRAF_SUBDOMAIN}.${ROOT_DOMAIN}
+      - TOKEN_SECRET=${CHRONOGRAF_TOKEN_SECRET}
+      - JWKS_URL=https://${AUTH_SUBDOMAIN}.${ROOT_DOMAIN}/application/o/influx-admin/jwks/
+      - GENERIC_NAME=Authentik
+      - GENERIC_CLIENT_ID=${CHRONOGRAF_CLIENT_ID}
+      - GENERIC_CLIENT_SECRET=${CHRONOGRAF_CLIENT_SECRET}
+      - GENERIC_SCOPES=email,profile,openid
+      - GENERIC_DOMAINS=${AUTH_SUBDOMAIN}.${ROOT_DOMAIN}
+      - GENERIC_AUTH_URL=https://${AUTH_SUBDOMAIN}.${ROOT_DOMAIN}/application/o/authorize/
+      - GENERIC_TOKEN_URL=https://${AUTH_SUBDOMAIN}.${ROOT_DOMAIN}/application/o/token/
+      - GENERIC_API_URL=https://${AUTH_SUBDOMAIN}.${ROOT_DOMAIN}/application/o/userinfo/
+      - GENERIC_API_KEY=email
+      - USE_ID_TOKEN=true
+    networks:
+      grafana:
+      internal-network:
+        aliases:
+          - grafana-chronograf
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_2_HOSTNAME}
+  # 3000
+  grafana:
+    image: grafana/grafana:${GRAFANA_VERSION}
+    user: "0"
+    volumes:
+      - ${ROOT_DATA_MOUNT}/grafana/grafana-storage:/var/lib/grafana
+      - ${ROOT_DATA_MOUNT}/grafana/grafana-provisioning/:/etc/grafana/provisioning
+    depends_on:
+      - influxdb
+    environment:
+      GF_SERVER_ROOT_URL: https://${GRAFANA_SUBDOMAIN}.${ROOT_DOMAIN}
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USERNAME}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
+      GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
+      GF_AUTH_GENERIC_OAUTH_NAME: "authentik"
+      GF_AUTH_GENERIC_OAUTH_CLIENT_ID: "${GRAFANA_CLIENT_ID}"
+      GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: "${GRAFANA_CLIENT_SECRET}"
+      GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email"
+      GF_AUTH_GENERIC_OAUTH_AUTH_URL: https://${AUTH_SUBDOMAIN}.${ROOT_DOMAIN}/application/o/authorize/
+      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: https://${AUTH_SUBDOMAIN}.${ROOT_DOMAIN}/application/o/token/
+      GF_AUTH_GENERIC_OAUTH_API_URL: https://${AUTH_SUBDOMAIN}.${ROOT_DOMAIN}/application/o/userinfo/
+      GF_AUTH_SIGNOUT_REDIRECT_URL: https://${AUTH_SUBDOMAIN}.${ROOT_DOMAIN}/application/o/grafana/end-session/
+      GF_AUTH_OAUTH_AUTO_LOGIN: "true"
+      GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: "contains(groups, 'Grafana Admins') && 'Admin' || contains(groups, 'Grafana Editors') && 'Editor' || 'Viewer'"
+    networks:
+      grafana:
+      internal-network:
+        aliases:
+          - grafana-chronograf
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_2_HOSTNAME}
+
+networks:
+  internal-network:
+    external: true
+  grafana:
