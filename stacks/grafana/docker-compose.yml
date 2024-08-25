@@ -1,5 +1,4 @@
 services:
-#8086
   influxdb:
     image: influxdb:latest
     volumes:
@@ -9,7 +8,7 @@ services:
       - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_USERNAME}
       - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PASSWORD}
       - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_ORG}
-      - DOCKER_INFLUXDB_INIT_BUCKET=default
+      - DOCKER_INFLUXDB_INIT_BUCKET=home_assistant
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_ADMIN_TOKEN}
     networks:
       grafana:
@@ -18,9 +17,6 @@ services:
       placement:
         constraints:
           - node.hostname == ${NODE_2_HOSTNAME}
-    volumes:
-      - ${ROOT_DATA_MOUNT}/grafana/influxdb-storage:/var/lib/influxdb
-# 8888
   chronograf:
     image: chronograf:latest
     volumes:
@@ -53,9 +49,8 @@ services:
       placement:
         constraints:
           - node.hostname == ${NODE_2_HOSTNAME}
-  # 3000
   grafana:
-    image: grafana/grafana:${GRAFANA_VERSION}
+    image: grafana/grafana-oss:${GRAFANA_VERSION}
     user: "0"
     volumes:
       - ${ROOT_DATA_MOUNT}/grafana/grafana-storage:/var/lib/grafana
