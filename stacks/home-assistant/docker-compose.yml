@@ -13,6 +13,7 @@ services:
       internal-network:
         aliases:
           - home-assistant
+      home-assistant:
     labels:
       - homepage.group=Monitoring
       - homepage.name=Home Assistant Status
@@ -23,9 +24,26 @@ services:
       - wud.tag.include=^\d+\.\d+\.\d+$$
       - wud.display.name=Home Assistant
       - wud.display.icon=si:homeassistant
+  linky:
+    image: "local/ha-linky:${HOME_ASSISTANT_LINKY_VERSION}"
+    environment:
+      - SUPERVISOR_TOKEN=${LINKY_SUPERVISOR_TOKEN}
+      - WS_URL=ws://webserver:8123/api/websocket
+      - TZ=${TZ}
+    volumes:
+      - ${ROOT_DATA_MOUNT}/home-assistant/linky:/data
+    depends_on:
+      - webserver
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_1_HOSTNAME}
+    networks:
+      home-assistant:
 networks:
   internal-network:
     external: true
+  home-assistant:
 
 volumes:
   config:
