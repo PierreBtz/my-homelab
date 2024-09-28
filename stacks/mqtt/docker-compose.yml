@@ -1,0 +1,16 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:${MOSQUITTO_MQTT_VERSION}
+    volumes:
+    - ${ROOT_DATA_MOUNT}/home-assistant/mqtt/config:/mosquitto/config:rw
+    - ${ROOT_DATA_MOUNT}/home-assistant/mqtt/data:/mosquitto/data:rw
+    - ${ROOT_DATA_MOUNT}/home-assistant/mqtt/log:/mosquitto/log:rw
+    networks:
+      internal-network:
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_2_HOSTNAME}
+networks:
+  internal-network:
+    external: true

@@ -1,0 +1,19 @@
+services:
+  zigbee2mqtt:
+    image: koenkk/zigbee2mqtt:${ZIGBEE2MQTT_VERSION}
+    volumes:
+      - ${ROOT_DATA_MOUNT}/home-assistant/zigbee2mqtt/data:/app/data
+      - /run/udev:/run/udev:ro
+      - /dev/ttyACM0:/dev/ttyACM0
+    environment:
+      - TZ= ${TZ}
+    networks:
+      internal-network:
+    deploy:
+      placement:
+        constraints:
+          # This is important, the usb device is only on this host
+          - node.hostname == ${NODE_2_HOSTNAME}
+networks:
+  internal-network:
+    external: true
