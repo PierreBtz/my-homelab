@@ -1,8 +1,9 @@
 services:
   influxdb:
-    image: influxdb:latest
+    image: influxdb:${INFLUXDB_VERSION}
     volumes:
-      - ${ROOT_DATA_MOUNT}/grafana/influxdb-storage:/var/lib/influxdb
+      - ${ROOT_DATA_MOUNT}/grafana/influxdb-storage:/var/lib/influxdb2
+      - ${ROOT_DATA_MOUNT}/grafana/influxdb-config:/etc/influxdb2
     environment:
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_USERNAME}
@@ -13,38 +14,6 @@ services:
     networks:
       grafana:
       internal-network:
-    deploy:
-      placement:
-        constraints:
-          - node.hostname == ${NODE_2_HOSTNAME}
-  chronograf:
-    image: chronograf:latest
-    volumes:
-      - ${ROOT_DATA_MOUNT}/grafana/chronograf-storage:/var/lib/chronograf
-    depends_on:
-      - influxdb
-    environment:
-      - INFLUXDB_URL=http://influxdb:8086
-      - INFLUXDB_USERNAME=${INFLUXDB_USERNAME}
-      - INFLUXDB_PASSWORD=${INFLUXDB_PASSWORD}
-      - PUBLIC_URL=https://${CHRONOGRAF_SUBDOMAIN}.${ROOT_DOMAIN}
-      - TOKEN_SECRET=${CHRONOGRAF_TOKEN_SECRET}
-      - JWKS_URL=https://${AUTH_SUBDOMAIN}.${ROOT_DOMAIN}/application/o/influx-admin/jwks/
-      - GENERIC_NAME=Authentik
-      - GENERIC_CLIENT_ID=${CHRONOGRAF_CLIENT_ID}
-      - GENERIC_CLIENT_SECRET=${CHRONOGRAF_CLIENT_SECRET}
-      - GENERIC_SCOPES=email,profile,openid
-      - GENERIC_DOMAINS=${AUTH_SUBDOMAIN}.${ROOT_DOMAIN}
-      - GENERIC_AUTH_URL=https://${AUTH_SUBDOMAIN}.${ROOT_DOMAIN}/application/o/authorize/
-      - GENERIC_TOKEN_URL=https://${AUTH_SUBDOMAIN}.${ROOT_DOMAIN}/application/o/token/
-      - GENERIC_API_URL=https://${AUTH_SUBDOMAIN}.${ROOT_DOMAIN}/application/o/userinfo/
-      - GENERIC_API_KEY=email
-      - USE_ID_TOKEN=true
-    networks:
-      grafana:
-      internal-network:
-        aliases:
-          - grafana-chronograf
     deploy:
       placement:
         constraints:
