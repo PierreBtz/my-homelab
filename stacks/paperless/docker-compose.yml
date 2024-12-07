@@ -78,6 +78,7 @@ services:
       PAPERLESS_REDIS: redis://broker:6379
       PAPERLESS_DBHOST: db
       PAPERLESS_URL: https://${SUBDOMAIN}.${ROOT_DOMAIN}
+      PAPERLESS_OCR_USER_ARGS: '{"invalidate_digital_signatures": true}'
 
 # Additional languages to install for text recognition, separated by a
 # whitespace. Note that this is
