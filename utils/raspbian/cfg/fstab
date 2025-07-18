@@ -1,10 +1,10 @@
-${NAS_IP}:/volume1/home-assistant /data/home-assistant nfs auto,defaults,nofail 0 0
-${NAS_IP}:/volume1/paperless /data/paperless nfs auto,defaults,nofail 0 0
-${NAS_IP}:/volume1/swag /data/swag nfs auto,defaults,nofail 0 0
-${NAS_IP}:/volume1/authentik /data/authentik nfs auto,defaults,nofail 0 0
-${NAS_IP}:/volume1/crowdsec /data/crowdsec nfs auto,defaults,nofail 0 0
-${NAS_IP}:/volume1/homepage /data/homepage nfs auto,defaults,nofail 0 0
-${NAS_IP}:/volume1/grafana /data/grafana nfs auto,defaults,nofail 0 0
+10.0.50.186:/volume1/home-assistant /data/home-assistant nfs nofail,x-systemd.automount,x-systemd.requires=network-online.target,x-systemd.device-timeout=10s 0 0
+10.0.50.186:/volume1/paperless /data/paperless nfs nofail,x-systemd.automount,x-systemd.requires=network-online.target,x-systemd.device-timeout=10s 0 0
+10.0.50.186:/volume1/swag /data/swag nfs nofail,x-systemd.automount,x-systemd.requires=network-online.target,x-systemd.device-timeout=10s 0 0
+10.0.50.186:/volume1/authentik /data/authentik nfs nofail,x-systemd.automount,x-systemd.requires=network-online.target,x-systemd.device-timeout=10s 0 0
+10.0.50.186:/volume1/crowdsec /data/crowdsec nfs nofail,x-systemd.automount,x-systemd.requires=network-online.target,x-systemd.device-timeout=10s 0 0
+10.0.50.186:/volume1/homepage /data/homepage nfs nofail,x-systemd.automount,x-systemd.requires=network-online.target,x-systemd.device-timeout=10s 0 0
+10.0.50.186:/volume1/grafana /data/grafana nfs nofail,x-systemd.automount,x-systemd.requires=network-online.target,x-systemd.device-timeout=10s 0 0
 
 tmpfs    /tmp    tmpfs    defaults,noatime,nosuid,size=100m    0 0
 tmpfs    /var/tmp    tmpfs    defaults,noatime,nosuid,size=500m    0 0
