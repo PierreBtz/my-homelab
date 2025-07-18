@@ -36,7 +36,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${NODE_2_HOSTNAME}
+          - node.hostname == ${NODE_4_HOSTNAME}
     networks:
       paperless:
 
@@ -51,7 +51,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${NODE_2_HOSTNAME}
+          - node.hostname == ${NODE_4_HOSTNAME}
     networks:
       paperless:
 
@@ -73,7 +73,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${NODE_2_HOSTNAME}
+          - node.hostname == ${NODE_4_HOSTNAME}
     environment:
       PAPERLESS_REDIS: redis://broker:6379
       PAPERLESS_DBHOST: db

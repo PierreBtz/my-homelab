@@ -1,6 +1,10 @@
 services:
   postgresql:
     image: docker.io/library/postgres:12-alpine
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_3_HOSTNAME}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
       start_period: 20s
@@ -19,6 +23,10 @@ services:
       authentik:
   redis:
     image: docker.io/library/redis:alpine
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_3_HOSTNAME}
     command: --save 60 1 --loglevel warning
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
@@ -32,6 +40,10 @@ services:
       authentik:
   server:
     image: ghcr.io/goauthentik/server:${AUTHENTIK_VERSION}
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_3_HOSTNAME}
     command: server
     environment:
       AUTHENTIK_REDIS__HOST: redis
@@ -64,6 +76,10 @@ services:
       - wud.display.icon=si:authelia
   worker:
     image: ghcr.io/goauthentik/server:${AUTHENTIK_VERSION}
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_3_HOSTNAME}
     command: worker
     environment:
       AUTHENTIK_REDIS__HOST: redis
