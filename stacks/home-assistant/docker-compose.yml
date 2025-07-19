@@ -37,7 +37,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${NODE_5_HOSTNAME}
+          - node.hostname == ${NODE_1_HOSTNAME}
     networks:
       home-assistant:
 networks:
