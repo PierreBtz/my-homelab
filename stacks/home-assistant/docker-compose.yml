@@ -8,7 +8,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${NODE_1_HOSTNAME}
+          - node.hostname == ${NODE_5_HOSTNAME}
     networks:
       internal-network:
         aliases:
@@ -37,7 +37,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${NODE_1_HOSTNAME}
+          - node.hostname == ${NODE_5_HOSTNAME}
     networks:
       home-assistant:
 networks:

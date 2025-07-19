@@ -13,7 +13,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.hostname == ${NODE_1_HOSTNAME}
+          - node.hostname == ${NODE_4_HOSTNAME}
     networks:
       - internal-network
     labels:
