@@ -20,7 +20,7 @@ function deploy() {
         [ -f ../.env ] && export $(sed '/^#/d' ../.env)
         # export variables excluding comments
         [ -f .env ] && export $(sed '/^#/d' .env)
-        docker stack deploy --compose-file $compose_file $stack
+        docker stack deploy --compose-file $compose_file $stack --detach=true
     )
 }
 
