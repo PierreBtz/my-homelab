@@ -1,0 +1,53 @@
+services:
+  frigate:
+    stop_grace_period: 30s
+    image: ghcr.io/blakeblackshear/frigate:0.15.2
+    cap_add:
+      - CAP_PERFMON
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${ROOT_DATA_MOUNT}/frigate/config:/config
+      - ${ROOT_DATA_MOUNT}/frigate/storage:/media/frigate
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - type: tmpfs
+        target: /tmp/cache
+        tmpfs:
+          size: 1000000000
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs:
+          size: 2000000000
+    environment:
+      FRIGATE_RTSP_PASSWORD: ${FRIGATE_RTSP_PASSWORD}
+      LIBVA_DRIVER_NAME: i965
+    networks:
+      internal-network:
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_5_HOSTNAME}
+  codeprojectai-1:
+    image: codeproject/ai-server:rpi64
+    volumes:
+      - ${ROOT_DATA_MOUNT}/frigate/codeproject-settings:/etc/codeproject/ai
+      - ${ROOT_DATA_MOUNT}/frigate/codeproject-modules:/app/modules
+    networks:
+      internal-network:
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_1_HOSTNAME}
+  codeprojectai-2:
+    image: codeproject/ai-server:rpi64
+    volumes:
+      - ${ROOT_DATA_MOUNT}/frigate/codeproject-settings2:/etc/codeproject/ai
+      - ${ROOT_DATA_MOUNT}/frigate/codeproject-modules2:/app/modules
+    networks:
+      internal-network:
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_2_HOSTNAME}
+networks:
+  internal-network:
+    external: true
