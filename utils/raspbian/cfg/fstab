@@ -5,6 +5,7 @@
 10.0.50.186:/volume1/crowdsec /data/crowdsec nfs nofail,x-systemd.automount,x-systemd.requires=network-online.target,x-systemd.device-timeout=10s 0 0
 10.0.50.186:/volume1/homepage /data/homepage nfs nofail,x-systemd.automount,x-systemd.requires=network-online.target,x-systemd.device-timeout=10s 0 0
 10.0.50.186:/volume1/grafana /data/grafana nfs nofail,x-systemd.automount,x-systemd.requires=network-online.target,x-systemd.device-timeout=10s 0 0
+10.0.50.186:/volume1/frigate /data/frigate nfs nofail,x-systemd.automount,x-systemd.requires=network-online.target,x-systemd.device-timeout=10s 0 0
 
 tmpfs    /tmp    tmpfs    defaults,noatime,nosuid,size=100m    0 0
 tmpfs    /var/tmp    tmpfs    defaults,noatime,nosuid,size=500m    0 0
