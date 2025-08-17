@@ -20,6 +20,7 @@ services:
     environment:
       FRIGATE_RTSP_PASSWORD: ${FRIGATE_RTSP_PASSWORD}
       LIBVA_DRIVER_NAME: i965
+      PLUS_API_KEY: ${PLUS_API_KEY}
     networks:
       internal-network:
     deploy:
