@@ -27,28 +27,6 @@ services:
       placement:
         constraints:
           - node.hostname == ${NODE_5_HOSTNAME}
-  codeprojectai-1:
-    image: codeproject/ai-server:rpi64
-    volumes:
-      - ${ROOT_DATA_MOUNT}/frigate/codeproject-settings:/etc/codeproject/ai
-      - ${ROOT_DATA_MOUNT}/frigate/codeproject-modules:/app/modules
-    networks:
-      internal-network:
-    deploy:
-      placement:
-        constraints:
-          - node.hostname == ${NODE_1_HOSTNAME}
-  codeprojectai-2:
-    image: codeproject/ai-server:rpi64
-    volumes:
-      - ${ROOT_DATA_MOUNT}/frigate/codeproject-settings2:/etc/codeproject/ai
-      - ${ROOT_DATA_MOUNT}/frigate/codeproject-modules2:/app/modules
-    networks:
-      internal-network:
-    deploy:
-      placement:
-        constraints:
-          - node.hostname == ${NODE_2_HOSTNAME}
 networks:
   internal-network:
     external: true
