@@ -1,6 +1,6 @@
 services:
   postgresql:
-    image: docker.io/library/postgres:12-alpine
+    image: docker.io/library/postgres:16-alpine
     deploy:
       placement:
         constraints:
