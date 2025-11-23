@@ -23,10 +23,51 @@ services:
       PLUS_API_KEY: ${PLUS_API_KEY}
     networks:
       internal-network:
+      frigate:
     deploy:
       placement:
         constraints:
           - node.hostname == ${NODE_5_HOSTNAME}
+  frigate_telegram_redis:
+    image: redis:7.2.3-alpine3.18
+    networks:
+      frigate:
+    command:
+      - 'redis-server'
+      - '--save 900 1'
+      - '--save 300 10'
+      - '--save 60 100'
+    volumes:
+      - ${ROOT_DATA_MOUNT}/frigate/redis/data:/data
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_5_HOSTNAME}
+  frigate_telegram:
+    image: ghcr.io/oldtyt/frigate-telegram:amd64
+    networks:
+      frigate:
+    environment:
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      FRIGATE_URL: http://frigate:5000
+      FRIGATE_EVENT_LIMIT: 5
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID}
+      SLEEP_TIME: 30
+      FRIGATE_EXTERNAL_URL: https://${SUBDOMAIN}.${ROOT_DOMAIN}
+      TZ: ${TZ}
+      REDIS_ADDR: "frigate_telegram_redis:6379"
+      REST_API_ENABLE: "False"
+      EVENT_BEFORE_SECONDS: 20
+    volumes:
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          size: 2000000000
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_3_HOSTNAME}
 networks:
   internal-network:
     external: true
+  frigate:
