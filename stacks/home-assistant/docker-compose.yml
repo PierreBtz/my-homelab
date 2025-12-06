@@ -1,6 +1,6 @@
 services:
   webserver:
-    image: "ghcr.io/home-assistant/home-assistant:2025.11.1
+    image: "ghcr.io/home-assistant/home-assistant:2025.11.1"
     volumes:
       - ${ROOT_DATA_MOUNT}/home-assistant/config:/config
       - /etc/localtime:/etc/localtime:ro
