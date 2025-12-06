@@ -41,7 +41,7 @@ services:
       paperless:
 
   db:
-    image: docker.io/library/postgres:15
+    image: docker.io/library/postgres:18
     volumes:
       - ${ROOT_DATA_MOUNT}/paperless/pgdata:/var/lib/postgresql/data
     environment:
