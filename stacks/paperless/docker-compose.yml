@@ -30,7 +30,7 @@
 
 services:
   broker:
-    image: docker.io/library/redis:7
+    image: docker.io/library/redis:8
     volumes:
       - ${ROOT_DATA_MOUNT}/paperless/redisdata:/data
     deploy:
