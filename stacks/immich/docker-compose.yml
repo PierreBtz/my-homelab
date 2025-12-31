@@ -1,0 +1,79 @@
+services:
+  immich-server:
+    image: ghcr.io/immich-app/immich-server:v2.3.1
+    volumes:
+      - ${ROOT_DATA_MOUNT}/immich/data:/data
+      - ${ROOT_DATA_MOUNT}/photo:/mnt/media/photo:ro
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    environment:
+      - TZ=${TZ}
+    depends_on:
+      - redis
+      - database
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_4_HOSTNAME}
+    ports:
+      - target: 2283
+        published: 80
+        mode: host
+    networks:
+      internal-network:
+      immich:
+
+  immich-machine-learning:
+    image: ghcr.io/immich-app/immich-machine-learning:v2.3.1
+    volumes:
+      - /dev/bus/usb:/dev/bus/usb
+      - ${ROOT_DATA_MOUNT}/immich/model-cache:/cache
+      - /dev/dri:/dev/dri
+    env_file:
+      - .env
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_4_HOSTNAME}
+    networks:
+      immich:
+
+  redis:
+    image: docker.io/valkey/valkey:8@sha256:81db6d39e1bba3b3ff32bd3a1b19a6d69690f94a3954ec131277b9a26b95b3aa
+    healthcheck:
+      test: redis-cli ping || exit 1
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_4_HOSTNAME}
+    networks:
+      immich:
+
+  database:
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE_NAME}
+      POSTGRES_INITDB_ARGS: '--data-checksums'
+    volumes:
+      - ${ROOT_DATA_MOUNT}/immich/db:/var/lib/postgresql/data
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs:
+          size: 128000000
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == ${NODE_4_HOSTNAME}
+    networks:
+      immich:
+
+volumes:
+  model-cache:
+
+networks:
+  internal-network:
+    external: true
+  immich:
