@@ -14,7 +14,7 @@ services:
       - EMAIL=${CONTACT_EMAIL}
       - ONLY_SUBDOMAINS=false
       - STAGING=false
-      - DOCKER_MODS=linuxserver/mods:swag-dashboard|linuxserver/mods:swag-dbip|ghcr.io/linuxserver/mods:swag-crowdsec|linuxserver/mods:universal-cloudflared|linuxserver/mods:swag-cloudflare-real-ip
+      - DOCKER_MODS=linuxserver/mods:swag-dashboard|linuxserver/mods:swag-dbip|ghcr.io/linuxserver/mods:swag-crowdsec|linuxserver/mods:universal-cloudflared|linuxserver/mods:swag-cloudflare-real-ip|linuxserver/mods:universal-docker|linuxserver/mods:swag-auto-proxy
       - CROWDSEC_API_KEY=${CROWDSEC_API_KEY}
       - CROWDSEC_LAPI_URL=http://crowdsec:8080
       - CF_ZONE_ID=${CF_ZONE_ID}
@@ -28,6 +28,7 @@ services:
       - ${ROOT_DOMAIN}:127.0.0.1
     volumes:
       - ${ROOT_DATA_MOUNT}/swag/config:/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
       - target: 80
         published: 80
