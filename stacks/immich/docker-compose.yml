@@ -1,6 +1,6 @@
 services:
   immich-server:
-    image: ghcr.io/immich-app/immich-server:v2.3.1
+    image: ghcr.io/immich-app/immich-server:v2.4.1
     volumes:
       - ${ROOT_DATA_MOUNT}/immich/data:/data
       - ${ROOT_DATA_MOUNT}/photo:/mnt/media/photo:ro
@@ -25,7 +25,7 @@ services:
       immich:
 
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:v2.3.1
+    image: ghcr.io/immich-app/immich-machine-learning:v2.4.1
     volumes:
       - /dev/bus/usb:/dev/bus/usb
       - ${ROOT_DATA_MOUNT}/immich/model-cache:/cache
