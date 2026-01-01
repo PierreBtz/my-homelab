@@ -1,0 +1,27 @@
+services:
+  dozzle:
+    image: amir20/dozzle:v8.14.12
+    environment:
+      DOZZLE_MODE: swarm
+      DOZZLE_AUTH_PROVIDER: forward-proxy
+      DOZZLE_AUTH_HEADER_USER: X-authentik-username
+      DOZZLE_AUTH_HEADER_EMAIL: X-authentik-email
+      DOZZLE_AUTH_HEADER_NAME: X-authentik-name
+      DOZZLE_AUTH_HEADER_FILTER: X-authentik-group
+      DOZZLE_AUTH_HEADER_ROLES: X-authentik-roles
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      internal-network:
+      dozzle:
+    deploy:
+      mode: global
+    labels:
+      - swag=enable
+      - swag_auth=authentik
+      - swag_url=dozzle.${ROOT_DOMAIN}
+networks:
+  dozzle:
+    driver: overlay
+  internal-network:
+    external: true
