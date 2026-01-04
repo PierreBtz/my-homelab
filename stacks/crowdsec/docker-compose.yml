@@ -1,6 +1,6 @@
 services:
   crowdsec:
-    image: "crowdsecurity/crowdsec:v1.7.3"
+    image: "crowdsecurity/crowdsec:v1.7.4"
     environment:
       - COLLECTIONS=crowdsecurity/nginx crowdsecurity/http-cve crowdsecurity/whitelist-good-actors
       - GID=${PGID}
