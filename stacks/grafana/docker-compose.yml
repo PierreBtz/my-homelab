@@ -1,6 +1,6 @@
 services:
   influxdb:
-    image: influxdb:2.7.10
+    image: influxdb:2.8.0
     volumes:
       - ${ROOT_DATA_MOUNT}/grafana/influxdb-storage:/var/lib/influxdb2
       - ${ROOT_DATA_MOUNT}/grafana/influxdb-config:/etc/influxdb2
