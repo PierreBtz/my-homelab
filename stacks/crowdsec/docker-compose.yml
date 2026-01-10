@@ -16,14 +16,6 @@ services:
           - node.hostname == ${NODE_4_HOSTNAME}
     networks:
       - internal-network
-    labels:
-      - homepage.group=Monitoring
-      - homepage.name=Home Crowdsec Status
-      - homepage.icon=crowdsec.png
-      - homepage.description=Container Status
-      - wud.watch=true
-      - wud.display.name=Crowdsec
-      - wud.display.icon=si:crowdsec
 
 networks:
   internal-network:

@@ -1,6 +1,6 @@
 services:
   mosquitto:
-    image: eclipse-mosquitto:${MOSQUITTO_MQTT_VERSION}
+    image: eclipse-mosquitto:2.0.18
     volumes:
     - ${ROOT_DATA_MOUNT}/home-assistant/mqtt/config:/mosquitto/config:rw
     - ${ROOT_DATA_MOUNT}/home-assistant/mqtt/data:/mosquitto/data:rw

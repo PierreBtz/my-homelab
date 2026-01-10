@@ -1,6 +1,6 @@
 services:
   swag:
-    image: lscr.io/linuxserver/swag:${SWAG_VERSION}
+    image: lscr.io/linuxserver/swag:5.1.0-ls418
     cap_add:
       - NET_ADMIN
     environment:
@@ -42,15 +42,6 @@ services:
           - node.hostname == ${NODE_1_HOSTNAME}
     networks:
       - internal-network
-    labels:
-      - homepage.group=Monitoring
-      - homepage.name=Nginx Status
-      - homepage.icon=nginx.png
-      - homepage.href=https://${SUBDOMAIN}.${ROOT_DOMAIN}
-      - homepage.description=Container Status
-      - wud.watch=true
-      - wud.display.name=Swag
-      - wud.display.icon=si:nginx
 
 networks:
   internal-network:

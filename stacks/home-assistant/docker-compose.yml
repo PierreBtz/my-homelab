@@ -14,18 +14,8 @@ services:
         aliases:
           - home-assistant
       home-assistant:
-    labels:
-      - homepage.group=Monitoring
-      - homepage.name=Home Assistant Status
-      - homepage.icon=home-assistant.png
-      - homepage.href=https://${SUBDOMAIN}.${ROOT_DOMAIN}
-      - homepage.description=Container Status
-      - wud.watch=true
-      - wud.tag.include=^\d+\.\d+\.\d+$$
-      - wud.display.name=Home Assistant
-      - wud.display.icon=si:homeassistant
   linky:
-    image: "local/ha-linky:${HOME_ASSISTANT_LINKY_VERSION}"
+    image: "local/ha-linky:1.5.0"
     environment:
       - SUPERVISOR_TOKEN=${LINKY_SUPERVISOR_TOKEN}
       - WS_URL=ws://webserver:8123/api/websocket

@@ -1,6 +1,6 @@
 services:
   influxdb:
-    image: influxdb:${INFLUXDB_VERSION}
+    image: influxdb:2.7.10
     volumes:
       - ${ROOT_DATA_MOUNT}/grafana/influxdb-storage:/var/lib/influxdb2
       - ${ROOT_DATA_MOUNT}/grafana/influxdb-config:/etc/influxdb2
@@ -19,7 +19,7 @@ services:
         constraints:
           - node.hostname == ${NODE_4_HOSTNAME}
   grafana:
-    image: grafana/grafana-oss:${GRAFANA_VERSION}
+    image: grafana/grafana-oss:10.4.9
     user: "0"
     volumes:
       - ${ROOT_DATA_MOUNT}/grafana/grafana-storage:/var/lib/grafana

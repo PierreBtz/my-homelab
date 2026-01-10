@@ -1,6 +1,6 @@
 services:
   dockerproxy:
-    image: ghcr.io/tecnativa/docker-socket-proxy:${DOCKER_SOCKET_PROXY_VERSION}
+    image: ghcr.io/tecnativa/docker-socket-proxy:v0.4.2
     hostname: "{{.Node.Hostname}}-{{.Service.Name}}"
     environment:
       - CONTAINERS=1 # Allow access to viewing containers
@@ -16,15 +16,6 @@ services:
       internal-network:
         aliases:
           - "{{.Node.Hostname}}-{{.Service.Name}}"
-    labels:
-      - homepage.group=Monitoring
-      - homepage.name=Docker Socket Proxy Status
-      - homepage.icon=docker.png
-      - homepage.description=Container Status
-      - wud.watch=true
-      - wud.watch.digest=true
-      - wud.display.name=Docker Socket Proxy
-      - wud.display.icon=si:docker
 
 networks:
   internal-network:

@@ -56,7 +56,7 @@ services:
       paperless:
 
   webserver:
-    image: ghcr.io/paperless-ngx/paperless-ngx:${PAPERLESS_VERSION}
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.19.5
     depends_on:
       - db
       - broker
@@ -105,16 +105,6 @@ services:
         aliases:
           - paperless
       paperless:
-    labels:
-      - homepage.group=Monitoring
-      - homepage.name=Paperless Status
-      - homepage.icon=paperless-ngx.png
-      - homepage.href=https://${SUBDOMAIN}.${ROOT_DOMAIN}
-      - homepage.description=Container Status
-      - wud.watch=true
-      - wud.tag.include=^\d+\.\d+\.\d+$$
-      - wud.display.name=Paperless
-      - wud.display.icon=si:paperspace
 
 networks:
   internal-network:

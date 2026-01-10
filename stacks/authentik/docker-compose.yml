@@ -64,16 +64,6 @@ services:
         aliases:
           - authentik
       authentik:
-    labels:
-      - homepage.group=Monitoring
-      - homepage.name=Authentik Status
-      - homepage.icon=authentik.png
-      - homepage.href=https://${AUTH_SUBDOMAIN}.${ROOT_DOMAIN}
-      - homepage.description=Container Status
-      - wud.watch=true
-      - wud.tag.include=^\d+\.\d+\.\d+$$
-      - wud.display.name=Authentik
-      - wud.display.icon=si:authelia
   worker:
     image: ghcr.io/goauthentik/server:2025.10
     deploy:
