@@ -8,7 +8,10 @@
       "description": "Do not update DB images",
       "enabled": false,
       "matchPackagePatterns": [
-        "postgres"
+        "postgres",
+        "valkey",
+        "redis",
+        "influxdb"
       ]
     }
   ]
