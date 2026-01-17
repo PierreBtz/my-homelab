@@ -3,7 +3,13 @@
   "extends": [
     "config:recommended"
   ],
-  "ignoreDeps": [
-    "postgres"
+  "packageRules": [
+    {
+      "description": "Do not update DB images",
+      "enabled": false,
+      "matchPackagePatterns": [
+        "postgres"
+      ]
+    }
   ]
 }
