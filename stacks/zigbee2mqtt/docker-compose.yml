@@ -1,6 +1,6 @@
 services:
   zigbee2mqtt:
-    image: koenkk/zigbee2mqtt:2.6.3
+    image: koenkk/zigbee2mqtt:2.7.2
     volumes:
       - ${ROOT_DATA_MOUNT}/home-assistant/zigbee2mqtt/data:/app/data
       - /run/udev:/run/udev:ro
