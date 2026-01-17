@@ -39,7 +39,7 @@ services:
     networks:
       authentik:
   server:
-    image: ghcr.io/goauthentik/server:2025.10
+    image: ghcr.io/goauthentik/server:2025.12
     deploy:
       placement:
         constraints:
@@ -65,7 +65,7 @@ services:
           - authentik
       authentik:
   worker:
-    image: ghcr.io/goauthentik/server:2025.10
+    image: ghcr.io/goauthentik/server:2025.12
     deploy:
       placement:
         constraints:
