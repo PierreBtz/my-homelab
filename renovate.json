@@ -11,7 +11,8 @@
         "postgres",
         "valkey",
         "redis",
-        "influxdb"
+        "influxdb",
+        "grafana"
       ]
     }
   ]
