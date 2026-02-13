@@ -1,6 +1,6 @@
 services:
   myelectricaldata:
-    image: m4dm4rtig4n/myelectricaldata:0.13.2
+    image: m4dm4rtig4n/myelectricaldata:0.13.4
     volumes:
     - ${ROOT_DATA_MOUNT}/home-assistant/my-electrical-data:/data
     environment:
