@@ -1,6 +1,6 @@
 services:
   swag:
-    image: lscr.io/linuxserver/swag:5.1.0-ls418
+    image: lscr.io/linuxserver/swag:5.4.0-ls448
     cap_add:
       - NET_ADMIN
     environment:
